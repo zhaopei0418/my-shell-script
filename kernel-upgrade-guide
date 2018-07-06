@@ -1,0 +1,10 @@
+1.安装最新内核源码 USE="symlink" emerge --ask --update --deep --with-bdeps=y --newuse sys-kernel/gentoo-sources
+2.备份先前的内核配置 cp /usr/src/linux-`uname -r`/.config ~/kernel-config-`uname -r`
+3.复制先前的内核配置到新的目录 cp /usr/src/linux-`uname -r`/.config /usr/src/linux
+4.配置新的内核参数 make silentoldconfig 基于文本的方式 make menuconfig 基于图形的配置 make olddefconfig 推荐的方式
+5.重新安装外部的内核模块 make modules_prepare emerge --ask @module-rebuild
+6.编译内核 make -jn n为cpu核数＋1
+7.安装驱动模块 make modules_install
+8.安装内核 make install
+9.构建内核引导 genkernel all
+10.生成grub2引导 grub-mkconfig -o /boot/grub/grub.cfg
